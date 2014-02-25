@@ -6,6 +6,7 @@ import org.jbox2d.dynamics.World;
 import playn.core.Image;
 import playn.core.ImageLayer;
 import playn.core.PlayN;
+import playn.core.Pointer;
 import react.UnitSlot;
 import tripleplay.game.ScreenStack;
 import playn.core.util.Callback;
@@ -23,7 +24,7 @@ public class TestScreen extends UIScreen {
     public TestScreen(ScreenStack ss){
             this.ss=ss;
     }
-   // private Zealot z=new Zealot(100f,100f);
+
 
 
     @Override
@@ -31,9 +32,9 @@ public class TestScreen extends UIScreen {
         super.wasAdded();
 
         Image b2Image =  PlayN.assets().getImage("images/b2.png");
-        //Image dogImage = PlayN.assets().getImage("images/dog.png");
-
-
+        ImageLayer b2Layer = PlayN.graphics().createImageLayer(b2Image);
+        Image backImage = PlayN.assets().getImage("images/back.png");
+        ImageLayer backLayer = PlayN.graphics().createImageLayer(backImage);
         b2Image.addCallback(new Callback<Image>(){
             @Override
             public void onSuccess(Image result){
@@ -44,22 +45,23 @@ public class TestScreen extends UIScreen {
 
             }
         });
-        ImageLayer b2Layer = PlayN.graphics().createImageLayer(b2Image);
-        /*ImageLayer dogLayer = PlayN.graphics().createImageLayer(dogImage);
-        layer.add(dogLayer);*/
+        backLayer.setTranslation(0f,400f);
         layer.add(b2Layer);
-       //z=new Zealot(100f,100f);
-       // layer.add(z.layer());
+        layer.add(backLayer);
 
-
-
-
+        backLayer.addListener(new Pointer.Adapter(){
+            @Override
+            public void onPointerEnd(Pointer.Event event) {
+                super.onPointerEnd(event);
+                ss.remove(TestScreen.this);
+            }
+        });
     }
 
 
 
-    private Root root;
-   /* @Override
+   /* private Root root;
+    @Override
     public void wasShown() {
         super.wasShown();
         root = iface.createRoot(
@@ -85,7 +87,7 @@ public class TestScreen extends UIScreen {
 
     @Override
     public void update(int delta) {
-       // z.update(delta);
+
 
     }
 }

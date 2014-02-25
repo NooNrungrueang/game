@@ -4,9 +4,7 @@ package Sprite;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
-import playn.core.Layer;
-import playn.core.PlayN;
-import playn.core.Pointer;
+import playn.core.*;
 import playn.core.util.Callback;
 import playn.core.util.Clock;
 import sut.game01.core.Screen.GameScreen;
@@ -46,14 +44,16 @@ public class Zealot {
 
                 hasLoded = true;
 
-                sprite.layer().addListener(new Pointer.Adapter(){
+                /*sprite.layer().addListener(new Pointer.Adapter(){
                     @Override
                     public void onPointerEnd(Pointer.Event event) {
                         state = State.DIE;
                         spriteIndex = -1;
-                        e=0;
+                        e=0; //คลิกแล้วตาย
                     }
-                });
+                });*/
+
+
             }
 
             @Override
@@ -110,14 +110,14 @@ public class Zealot {
         bodyDef.position = new Vec2(0,0);
         Body body = world.createBody(bodyDef);
 
-
+        ///EdgeShape shape = new EdgeShape();
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(56* GameScreen.M_PER_PEXEL/2,sprite.layer().height()*GameScreen.M_PER_PEXEL/2);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape=shape;
         fixtureDef.density=0.4f;
         fixtureDef.friction = 0.1f;
-        //fixtureDef.restitution=0.35f;
+        fixtureDef.restitution=0.35f;
         body.createFixture(fixtureDef);
 
         body.setLinearDamping(0.2f);

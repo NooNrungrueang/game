@@ -47,13 +47,38 @@ public class GameScreen extends Screen {
         world.setWarmStarting(true);
         world.setAutoClearForces(true);
 
-        Image zImage =  PlayN.assets().getImage("images/dog.png");
-        ImageLayer zLayer = PlayN.graphics().createImageLayer(zImage);
-        layer.add(zLayer);
-
+        Image b2Image = PlayN.assets().getImage("images/b2.png");
+        ImageLayer b2Layer = PlayN.graphics().createImageLayer(b2Image);
+        Image flowerpushImage =  PlayN.assets().getImage("images/flowerpush.png");
+        ImageLayer flowerpushLayer = PlayN.graphics().createImageLayer(flowerpushImage);
+        Image nextImage = PlayN.assets().getImage("images/next.png");
+        ImageLayer nextLayer = PlayN.graphics().createImageLayer(nextImage);
+        Image backImage = PlayN.assets().getImage("images/back.png");
+        ImageLayer backLayer = PlayN.graphics().createImageLayer(backImage);
         z=new Zealot(world,500f,100f);
+        nextLayer.setTranslation(580f,400f);
+        backLayer.setTranslation(0f,400f);
+        layer.add(b2Layer);
+        layer.add(flowerpushLayer);
         layer.add(z.layer());
+        layer.add(nextLayer);
+        layer.add(backLayer);
 
+
+        nextLayer.addListener(new Pointer.Adapter(){
+            @Override
+            public void onPointerEnd(Pointer.Event event) {
+                super.onPointerEnd(event);
+                ss.push(new TestScreen(ss));
+            }
+        });
+        backLayer.addListener(new Pointer.Adapter(){
+            @Override
+            public void onPointerEnd(Pointer.Event event) {
+                super.onPointerEnd(event);
+                ss.remove(GameScreen.this);
+            }
+        });
 
         world.setContactListener(new ContactListener() {
             @Override
@@ -102,11 +127,19 @@ public class GameScreen extends Screen {
         creatBox2();
 
 
-        zLayer.addListener(new Pointer.Adapter(){
+        flowerpushLayer.addListener(new Pointer.Adapter(){
             @Override
             public void onPointerEnd(Pointer.Event event) {
                 super.onPointerEnd(event);
                 a.applyLinearImpulse(new Vec2(100f,0f),a.getPosition());
+            }
+        });
+
+        PlayN.keyboard().setListener(new Keyboard.Adapter(){
+            @Override
+            public void onKeyDown(Keyboard.Event event) {
+                super.onKeyDown(event);
+
             }
         });
 
