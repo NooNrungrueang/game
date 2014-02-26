@@ -118,13 +118,15 @@ public class GameScreen extends Screen {
             world.setDebugDraw(debugDraw);
 
         }
+        //================================================================================
+        //set ground in world
         Body ground = world.createBody(new BodyDef());
         PolygonShape groundShape = new PolygonShape();
         groundShape.setAsEdge(new Vec2(2f,height-2),new Vec2(width-2f,height-2f));
         ground.createFixture(groundShape,0.0f);
-
+        //================================================================================
          final Body a = creatBox();
-        creatBox2();
+        //creatBox2();
 
 
         flowerpushLayer.addListener(new Pointer.Adapter(){
