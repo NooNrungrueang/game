@@ -9,7 +9,7 @@ import tripleplay.game.ScreenStack;
 
 public class MyGame extends Game.Default {
 
-    public  static  final  int UPDATE_RATE = 25;
+
     private ScreenStack ss = new ScreenStack();
     protected  final Clock.Source clock = new Clock.Source(33);
 

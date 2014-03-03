@@ -21,14 +21,14 @@ import static tripleplay.ui.layout.AxisLayout.*;
  */
 public class HomeScreen extends UIScreen {
 
-    public  static  final  Font TITLE_FONT =
-            graphics().createFont(
-              "Helvetica",
-               Font.Style.BOLD,24
-            );
-
     private final ScreenStack ss;
     private Root root;
+
+    public static final Font TITLE_FONT =
+            graphics().createFont(
+                    "Helvetica",
+                    Font.Style.BOLD,24
+            );
 
     public  HomeScreen(ScreenStack ss){
         this.ss=ss;
@@ -67,13 +67,13 @@ public class HomeScreen extends UIScreen {
         root.add(new Button("Setting").onClick(new UnitSlot() {
             @Override
             public void onEmit() {
-                ss.push(new SetGame(ss));
+                ss.push(new SettingGameScreen(ss));
             }
         }));
-        root.add(new Button("Height Score").onClick(new UnitSlot() {
+        root.add(new Button("High Score").onClick(new UnitSlot() {
             @Override
             public void onEmit() {
-               //ss.remove(HomeScreen.this);
+               ss.push(new HeightScoreScreen(ss));
             }
         }));
 

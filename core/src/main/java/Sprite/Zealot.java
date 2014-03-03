@@ -44,16 +44,14 @@ public class Zealot {
 
                 hasLoded = true;
 
-                /*sprite.layer().addListener(new Pointer.Adapter(){
+                sprite.layer().addListener(new Pointer.Adapter(){
                     @Override
                     public void onPointerEnd(Pointer.Event event) {
                         state = State.DIE;
                         spriteIndex = -1;
                         e=0; //คลิกแล้วตาย
                     }
-                });*/
-
-
+                });
             }
 
             @Override

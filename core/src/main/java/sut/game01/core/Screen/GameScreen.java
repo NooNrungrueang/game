@@ -1,6 +1,8 @@
 package sut.game01.core.Screen;
 
+import Sprite.Sprite;
 import Sprite.Zealot;
+import Sprite.Boy;
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.callbacks.DebugDraw;
@@ -30,7 +32,8 @@ public class GameScreen extends Screen {
     private World world;
     private Boolean showDebugDraw = true;
     private DebugDrawBox2D debugDraw;
-    private Zealot z;
+    private Boy b;
+
 
 
 
@@ -49,29 +52,20 @@ public class GameScreen extends Screen {
 
         Image b2Image = PlayN.assets().getImage("images/b2.png");
         ImageLayer b2Layer = PlayN.graphics().createImageLayer(b2Image);
-        Image flowerpushImage =  PlayN.assets().getImage("images/flowerpush.png");
-        ImageLayer flowerpushLayer = PlayN.graphics().createImageLayer(flowerpushImage);
-        Image nextImage = PlayN.assets().getImage("images/next.png");
-        ImageLayer nextLayer = PlayN.graphics().createImageLayer(nextImage);
+        //Image flowerpushImage =  PlayN.assets().getImage("images/flowerpush.png");
+        //ImageLayer flowerpushLayer = PlayN.graphics().createImageLayer(flowerpushImage);
+        //layer.add(flowerpushLayer); รูปที่ใช้ใส่แรงให้กล่อง
         Image backImage = PlayN.assets().getImage("images/back.png");
         ImageLayer backLayer = PlayN.graphics().createImageLayer(backImage);
-        z=new Zealot(world,500f,100f);
-        nextLayer.setTranslation(580f,400f);
+
+
+        b = new Boy(world,300f,300f);
         backLayer.setTranslation(0f,400f);
+
         layer.add(b2Layer);
-        layer.add(flowerpushLayer);
-        layer.add(z.layer());
-        layer.add(nextLayer);
         layer.add(backLayer);
+        layer.add(b.layer());
 
-
-        nextLayer.addListener(new Pointer.Adapter(){
-            @Override
-            public void onPointerEnd(Pointer.Event event) {
-                super.onPointerEnd(event);
-                ss.push(new TestScreen(ss));
-            }
-        });
         backLayer.addListener(new Pointer.Adapter(){
             @Override
             public void onPointerEnd(Pointer.Event event) {
@@ -125,25 +119,16 @@ public class GameScreen extends Screen {
         groundShape.setAsEdge(new Vec2(2f,height-2),new Vec2(width-2f,height-2f));
         ground.createFixture(groundShape,0.0f);
         //================================================================================
-         final Body a = creatBox();
-        //creatBox2();
-
-
+        /*apply force to box
+        final Body a = creatBox();
         flowerpushLayer.addListener(new Pointer.Adapter(){
             @Override
             public void onPointerEnd(Pointer.Event event) {
                 super.onPointerEnd(event);
                 a.applyLinearImpulse(new Vec2(100f,0f),a.getPosition());
             }
-        });
-
-        PlayN.keyboard().setListener(new Keyboard.Adapter(){
-            @Override
-            public void onKeyDown(Keyboard.Event event) {
-                super.onKeyDown(event);
-
-            }
-        });
+        });*/
+        //================================================================================
 
 
     }
@@ -153,9 +138,7 @@ public class GameScreen extends Screen {
     public void update(int delta) {
         super.update(delta);
         world.step(0.033f,10,10);
-        z.update(delta);
-
-
+        b.update(delta);
     }
 
     @Override
@@ -164,11 +147,11 @@ public class GameScreen extends Screen {
         if(showDebugDraw){
             debugDraw.getCanvas().clear();
             world.drawDebugData();
-
-        z.paint(clock);
+        b.paint(clock);
 
         }
     }
+    //=====creat Box======================================================
     private Body creatBox(){
         BodyDef bf = new BodyDef();
         bf.type = BodyType.DYNAMIC;
@@ -187,24 +170,8 @@ public class GameScreen extends Screen {
         body.setTransform(new Vec2(10f, 0f), 0);
         return body;
     }
+    //=======================================================================
 
-    private void creatBox2(){
-        BodyDef bf2 = new BodyDef();
-        bf2.type = BodyType.DYNAMIC;
-        bf2.position = new Vec2(10,10);
-
-        Body body2 = world.createBody(bf2);
-        PolygonShape shape2= new PolygonShape();
-        shape2.setAsBox(2f,2f);
-        FixtureDef fd2 = new FixtureDef();
-        fd2.shape = shape2;
-        fd2.density=0.1f;
-        fd2.friction=0.1f;
-        fd2.restitution=1f;
-        body2.createFixture(fd2);
-        body2.setLinearDamping(0.5f);
-        body2.setTransform(new Vec2(15f,5f),0);
-    }
 
 
 }
